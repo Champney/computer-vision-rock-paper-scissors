@@ -22,10 +22,10 @@ def get_winner(user_choice,computer_choice):
     elif y == 'Paper' and x == 'Rock':
         print("You won!")
     elif x == 'Rock' and y == 'Scissors':
-        print("You lose")
+        print("You lost")
     elif x == 'Scissors' and y == 'Paper':
-        print("You lose")
+        print("You lost")
     elif x == 'Paper' and y == 'Rock':
-        print("You lose")
+        print("You lost")
 
 get_winner(get_user_choice(), get_computer_choice())
