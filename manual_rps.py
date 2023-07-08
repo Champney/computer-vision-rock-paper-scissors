@@ -1,6 +1,7 @@
-selections = ['Rock', 'Paper', 'Scissors']
-import random
+
 def get_computer_choice():
+    selections = ['Rock', 'Paper', 'Scissors']
+    import random
     x = random.choice(selections)#.lower()
     #print(x)
     return x
