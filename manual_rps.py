@@ -2,30 +2,30 @@
 def get_computer_choice():
     selections = ['Rock', 'Paper', 'Scissors']
     import random
-    x = random.choice(selections).lower()
+    x = random.choice(selections)
     print(x)
     return x
     
 def get_user_choice():
-    x = input()#.lower
+    x = input().capitalize()
     return x
 
 def get_winner(user_choice,computer_choice):
     x = computer_choice
     y = user_choice
     if x == y:
-        print("It's a draw")
-    elif y == 'rock' and x == 'scissors':
-        print("You win")
-    elif y == 'scissors' and x == 'paper':
-        print("You win")
-    elif y == 'paper' and x == 'rock':
-        print("You win")
-    elif x == 'rock' and y == 'scissors':
+        print("It's a tie!")
+    elif y == 'Rock' and x == 'scissors':
+        print("You won!")
+    elif y == 'Scissors' and x == 'Paper':
+        print("You won!")
+    elif y == 'Paper' and x == 'Rock':
+        print("You won!")
+    elif x == 'Rock' and y == 'Scissors':
         print("You lose")
-    elif x == 'scissors' and y == 'paper':
+    elif x == 'Scissors' and y == 'Paper':
         print("You lose")
-    elif x == 'paper' and y == 'rock':
+    elif x == 'Paper' and y == 'Rock':
         print("You lose")
 
 get_winner(get_user_choice(), get_computer_choice())
