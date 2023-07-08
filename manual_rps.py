@@ -10,7 +10,7 @@ def get_user_choice():
     x = input().capitalize()
     return x
 
-def get_winner(user_choice,computer_choice):
+def get_winner(computer_choice,user_choice):
     x = computer_choice
     y = user_choice
     if x == y:
