@@ -27,5 +27,6 @@ def get_winner(computer_choice,user_choice):
         print("You lost")
     elif x == 'Paper' and y == 'Rock':
         print("You lost")
-
-get_winner(get_user_choice(), get_computer_choice())
+def play():
+    get_winner(get_user_choice(), get_computer_choice())
+play()
