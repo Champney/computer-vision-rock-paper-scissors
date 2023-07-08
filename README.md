@@ -24,7 +24,9 @@ With my environment created, in the terminal, I ran 'pip list > requirements.txt
 Initially, when I tested the model, each line was seperated by a progress bar, displaying 1/1. This was not helpful, so I got rid of them by setting the 'verbose' argument to '0' under the 'prediction' variable:
 
 ![Alt text](image-3.png)
+
 ![Alt text](image-4.png)
+
 ![Alt text](image-5.png)
 
 ## Milestone 4
