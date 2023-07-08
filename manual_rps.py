@@ -1,12 +1,12 @@
 selections = ['Rock', 'Paper', 'Scissors']
 import random
 def get_computer_choice():
-    x = random.choice(selections).lower()
+    x = random.choice(selections)#.lower()
     #print(x)
     return x
     
 def get_user_choice():
-    return input().lower()
+    return input()#.lower()
 
 x = get_computer_choice()
 y = get_user_choice()
