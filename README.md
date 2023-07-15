@@ -25,7 +25,7 @@ Initially, when I tested the model, each line was seperated by a progress bar, d
 
 ![Alt text](image-3.png)
 
-![Alt text](image-4.png)
+``` prediction = model.predict(data, verbose=0)```
 
 ![Alt text](image-5.png)
 
