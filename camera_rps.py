@@ -1,46 +1,44 @@
+import time
+import os 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' #This line and the one above it disable irrelevant warning messages
+import cv2 
+from keras.models import load_model
+import numpy as np
+model = load_model('./keras_model.h5',compile=False)
+computer_wins = 0
+user_wins = 0
+
 def get_prediction():
-    import cv2 
-    from keras.models import load_model
-    import numpy as np
-    model = load_model('./keras_model.h5',compile=False)
-    with open('./labels.txt') as f:
-        labels = [line.strip() for line in f.readlines()]
-    model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
-    cap = cv2.VideoCapture(0)
-    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    print('Determining your choice...')
+    #countdown
+    t = 3
+    while t > 0:
+        print(f"Countdown: {t}")
+        t -= 1
+        time_start = time.time()
+        while (time.time() - time_start) < 1:
+            pass
 
     while True: 
-        ret, frame = cap.read()
-        resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
-        image_np = np.array(resized_frame)
-        normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
-        data[0] = normalized_image
-        prediction = model.predict(data, verbose=0)
-
-        cv2.imshow('frame', frame)
-        #time.sleep(5)
-        # Press q to close the window
-        #print(prediction)
-        if prediction[0][0] > 0.8:
+        prediction = get_image_from_webcam()
+        
+        #Assign the correct probability to the correct gesture
+        if prediction[0][0] > 0.75:
             x = 'Scissors'
-            return x
-            
-        elif prediction[0][1] > 0.8:
-            x = 'Rock'
-            return x
-        elif prediction[0][2] > 0.8:
-            x = 'Paper'
-            return x
-        elif prediction[0][3] > 0.8:
-            x = 'None'
-            return x
-        if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-    # After the loop release the cap object
-    cap.release()
-    # Destroy all the windows
-    cv2.destroyAllWindows()
-    
+        
+        elif prediction[0][1] > 0.75:
+            x = 'Rock'
+            break
+
+        elif prediction[0][2] > 0.75:
+            x = 'Paper'
+            break
+        elif prediction[0][3] > 0.75:
+            x = 'None'
+    print(f"You chose {x}")
+    return x
+
 def get_computer_choice():
     selections = ['Rock', 'Paper', 'Scissors']
     import random
@@ -48,25 +46,67 @@ def get_computer_choice():
     return x
 
 def get_winner(computer_choice,user_choice):
+    global user_wins
+    global computer_wins
     x = computer_choice
     y = user_choice
+    
     print(f'Your choice: {y}, computer choice {x}')
     if x == y:
         print("It is a tie!")
-    elif y == 'Rock' and x == 'scissors':
-        print("You won!")
+        pass
+    elif y == 'Rock' and x == 'Scissors':
+        print("You won")
+        user_wins += 1
+        pass
     elif y == 'Scissors' and x == 'Paper':
-        print("You won!")
+        print("You won")
+        user_wins += 1
+        pass
     elif y == 'Paper' and x == 'Rock':
-        print("You won!")
+        print("You won")
+        user_wins += 1
+        pass
     elif x == 'Rock' and y == 'Scissors':
         print("You lost")
+        computer_wins += 1
+        pass
     elif x == 'Scissors' and y == 'Paper':
         print("You lost")
+        computer_wins += 1
+        pass
     elif x == 'Paper' and y == 'Rock':
         print("You lost")
+        computer_wins += 1
+        pass
+    
+def get_image_from_webcam():
+    cap = cv2.VideoCapture(0)
+    data = np.ndarray(shape=(1, 224, 224, 3), dtype=np.float32)
+    ret, frame = cap.read()
+    resized_frame = cv2.resize(frame, (224, 224), interpolation = cv2.INTER_AREA)
+    image_np = np.array(resized_frame)
+    normalized_image = (image_np.astype(np.float32) / 127.0) - 1 # Normalize the image
+    data[0] = normalized_image
+    cv2.imshow('frame', frame)
+    prediction = model.predict(data, verbose=0)
+
+    #release the cap object once the prediction variable is assigned
+    cap.release()
+    # Destroy all the windows
+    cv2.destroyAllWindows()
+    return prediction
+
+
+    
 def play():
-    get_winner(get_prediction(), get_computer_choice())
+    
+    while computer_wins < 3 and user_wins < 3:
+        get_winner(get_computer_choice(),get_prediction())
+    if user_wins > 2:
+        print("You win, well done")
+    if computer_wins > 2:
+        print("The computer beat you")
+    
     
 play()
-
